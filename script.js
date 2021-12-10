@@ -5,8 +5,14 @@
 // }, 3000);
 
 const MaxCounter = 20;
+const winningColor = "#60b347"; // green
+const tooLowColor = "orange";   // orange
+const tooHighColor = "Red";     // Red
+const defaultColor = "#222";     // default color
+
 let secretNumber = 0;
 let counter = 20;
+
 
 // just a function to do console.log, XD
 function print(message)
@@ -23,6 +29,11 @@ function SetLiveScore(num)
 {
     document.querySelector('.score').textContent = num;
 }
+// sets the background color
+function SetBackgroundColor(color)
+{
+    document.querySelector('body').style.backgroundColor = color;
+}
 // returns the user input, what guess the player has made
 function GetInputNumber()
 {
@@ -38,12 +49,14 @@ function ResetInputNumber()
 {
     document.querySelector('.guess').value = "";
 }
+// sets the background color to the given color
 // IMP : this function resets the game
 function ResetGame()
 {
     counter = MaxCounter;
     secretNumber = Math.trunc(Math.random() * 20) + 1;
     SetLiveScore(counter);
+    SetBackgroundColor(defaultColor);
     SetMessage("Start guessing the number 🧐");
     ResetInputNumber();    
 }
@@ -74,15 +87,18 @@ function GuessCheck()
     if(num == secretNumber)
     {
         SetMessage("WOW you guessed it !!");
+        SetBackgroundColor(winningColor);
         UpdateHighScore(counter);
         setTimeout(()=>{
             ResetGame();    
         } , 2000 );
     }
     else if(num < secretNumber)
-        SetMessage("Too Low");
+        SetMessage("Too Low"),
+        SetBackgroundColor(tooLowColor);
     else
-        SetMessage("Too High")
+        SetMessage("Too High"),
+        SetBackgroundColor(tooHighColor);
 }
 
 
@@ -99,4 +115,3 @@ ResetGame();
 SetMessage("Start guessing the number 🧐");
 document.querySelector('.check').addEventListener('click' , checkFunction);
 document.querySelector('.again').addEventListener('click' , ResetGame);
-
